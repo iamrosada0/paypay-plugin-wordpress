@@ -1,27 +1,47 @@
-jQuery(document).ready(function ($) {
-  $("#paypay-form").on("submit", function (e) {
-    e.preventDefault();
-    var $form = $(this);
-    var $message = $("#paypay-message");
-    $message.html("<p>Processing...</p>");
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("paypay-form");
+  if (!form) return;
 
-    $.ajax({
-      url: PayPayData.ajax_url,
-      type: "POST",
-      data: $form.serialize(),
-      success: function (response) {
-        if (response.success) {
-          $message.html("<p>" + response.data.message + "</p>");
-          if (response.data.redirect) {
-            window.location.href = response.data.redirect;
-          }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const amount = document.getElementById("amount").value;
+    const phone = document.getElementById("phone").value;
+    const submitButton = document.getElementById("paypay-submit");
+    const messageDiv = document.getElementById("paypay-message");
+
+    // Validate inputs
+    if (!amount || amount <= 0 || !phone.match(/^\d{9}$/)) {
+      messageDiv.textContent = "Please enter a valid amount and phone number.";
+      return;
+    }
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Processing...";
+    messageDiv.textContent = "";
+
+    fetch(PayPayData.ajax_url + "?action=create_paypay_payment", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        amount: amount,
+        phone: phone,
+        nonce: PayPayData.nonce,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          window.location.href = data.data.return_url;
         } else {
-          $message.html("<p>Error: " + response.data.message + "</p>");
+          messageDiv.textContent = data.data.message || "Payment failed.";
         }
-      },
-      error: function () {
-        $message.html("<p>Error: Unable to process payment.</p>");
-      },
-    });
+      })
+      .catch((error) => {
+        messageDiv.textContent = "An error occurred. Please try again.";
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = "Pay Now";
+      });
   });
 });
