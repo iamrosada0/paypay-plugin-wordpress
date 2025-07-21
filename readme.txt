@@ -7,10 +7,10 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Integrates PayPay Multicaixa payment system with WordPress for custom payments.
+A WordPress plugin for processing payments via PayPay Multicaixa, a popular payment system in Angola.
 
 == Description ==
-This plugin allows WordPress sites to process payments via PayPay Multicaixa, a popular payment system in Angola. Use the [paypay_multicaixa_form] shortcode to add a payment form to any page.
+This plugin allows WordPress sites to process payments via PayPay Multicaixa. Use the [paypay_multicaixa_form] shortcode to add a payment form to any page.
 
 == Installation ==
 1. Upload the plugin folder to `/wp-content/plugins/`.

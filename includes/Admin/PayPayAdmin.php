@@ -1,5 +1,5 @@
 <?php
-namespace PayPayCheckoutSdk\Admin;
+namespace PayPayMulticaixa\Admin;
 
 class PayPayAdmin {
     public static function init() {
