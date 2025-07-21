@@ -63,7 +63,9 @@ add_shortcode('paypay_payment_form', function () {
 
             <button type="submit" id="paypay-submit"><?php _e('Pay Now', 'paypay-multicaixa'); ?></button>
         </form>
-        <div id="paypay-message"></div>
+
+        <div id="paypay-message" style="margin-top: 1rem; color: red;"></div>
+        <div id="paypay-modal-content" style="margin-top: 1rem;"></div>
     </div>
     <?php
     return ob_get_clean();
